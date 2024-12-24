@@ -48,10 +48,13 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+            - name: Set AVD environment variable globally
+
+      - name: "Set avd home"
+        run: echo "ANDROID_AVD_HOME=/home/runner/.config/.android/avd" >> $GITHUB_ENV
+
       # Start the Android Emulator
       - name: Start Emulator
-        env:
-          ANDROID_AVD_HOME: /home/runner/.config/.android/avd
         run: |
           nohup $ANDROID_HOME/emulator/emulator -avd test_avd -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -verbose &
           adb wait-for-device
