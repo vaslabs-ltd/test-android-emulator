@@ -42,7 +42,13 @@ jobs:
           $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --name test_avd --package "system-images;android-35;google_apis_playstore;x86_64" --device "Nexus 5X" --force
           $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager list avd
 
-        # Start the Android Emulator
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      # Start the Android Emulator
       - name: Start Emulator
         env:
           ANDROID_AVD_HOME: /home/runner/.config/.android/avd
