@@ -40,52 +40,11 @@ jobs:
       - name: Create AVD
         run: $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --name test_avd --package "system-images;android-35;google_apis_playstore;x86_64" --device "Nexus 5X" --force
 
-      # Start the Android Emulator
+        # Start the Android Emulator
       - name: Start Emulator
         run: |
-          set -e
-
-          # Set Android SDK paths
-          ANDROID_HOME=${ANDROID_HOME:-/usr/local/lib/android/sdk}
-          CMDLINE_TOOLS="$ANDROID_HOME/cmdline-tools/latest/bin"
-          EMULATOR="$ANDROID_HOME/emulator"
-          AVD_NAME="test_avd"
-          SYSTEM_IMAGE="system-images;android-35;google_apis_playstore;x86_64"
-          DEVICE="Nexus 5X"
-
-          echo "===== Diagnostics ====="
-          echo "ANDROID_HOME: $ANDROID_HOME"
-          echo "PATH: $PATH"
-          echo "User HOME: $HOME"
-          echo ".android directory: $HOME/.android"
-          ls -al "$HOME/.android"
-
-          echo "===== Listing Installed System Images ====="
-          "$CMDLINE_TOOLS/sdkmanager" --list | grep 'system-images'
-
-          echo "===== Listing Available Devices ====="
-          "$CMDLINE_TOOLS/avdmanager" list device
-
-          echo "===== Listing Existing AVDs ====="
-          "$CMDLINE_TOOLS/avdmanager" list avd
-
-          echo "===== Creating AVD ====="
-          echo "no" | "$CMDLINE_TOOLS/avdmanager" create avd \
-            --name "$AVD_NAME" \
-            --package "$SYSTEM_IMAGE" \
-            --device "$DEVICE" \
-            --force
-
-          echo "===== Listing Updated AVDs ====="
-          "$CMDLINE_TOOLS/avdmanager" list avd
-
-          echo "===== Starting Emulator ====="
-          "$EMULATOR/emulator" -avd "$AVD_NAME" -no-window -gpu swiftshader_indirect -verbose &
-
-          echo "===== Checking Emulator Logs ====="
-          sleep 10
-          pgrep -a emulator
-          adb devices
+          nohup emulator -avd test_avd -no-window -gpu swiftshader_indirect -verbose &
+          adb wait-for-device
 
       # Check Emulator Status
       - name: Verify Emulator Boot
