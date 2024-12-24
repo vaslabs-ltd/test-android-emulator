@@ -38,7 +38,11 @@ jobs:
 
       # Create an Android Virtual Device (AVD)
       - name: Create AVD
-        run: $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --name test_avd --package "system-images;android-35;google_apis_playstore;x86_64" --device "Nexus 5X" --force
+        run: |
+          mkdir $HOME/.android
+          $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --name test_avd --package "system-images;android-35;google_apis_playstore;x86_64" --device "Nexus 5X" --force
+          $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager list avd
+          ls -la $HOME/.android/*
 
         # Start the Android Emulator
       - name: Start Emulator
