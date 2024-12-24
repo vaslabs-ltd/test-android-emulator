@@ -53,7 +53,7 @@ jobs:
         env:
           ANDROID_AVD_HOME: /home/runner/.config/.android/avd
         run: |
-          nohup $ANDROID_HOME/emulator/emulator -avd test_avd -no-window -gpu swiftshader_indirect -verbose &
+          nohup $ANDROID_HOME/emulator/emulator -avd test_avd -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -verbose &
           adb wait-for-device
 
       # Check Emulator Status
