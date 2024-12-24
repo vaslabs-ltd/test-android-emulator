@@ -41,7 +41,7 @@ jobs:
       # Start the Android Emulator
       - name: Start Emulator
         run: |
-          nohup emulator -avd test_avd -no-window -gpu swiftshader_indirect -verbose &
+          $NADROID_HOME/emulator/emulator -avd test_avd -no-window -gpu swiftshader_indirect -verbose &
           adb wait-for-device
 
       # Check Emulator Status
