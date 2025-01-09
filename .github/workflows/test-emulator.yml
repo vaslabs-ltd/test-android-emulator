@@ -39,6 +39,9 @@ jobs:
       # Create an Android Virtual Device (AVD)
       - name: Create AVD
         run: |
+          $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager list avd
+          rm -rf /home/runner/.config/.android/avd/*
+          adb devices -l
           $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --name test_avd --package "system-images;android-35;google_apis_playstore;x86_64" --device "medium_phone" --force
           $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager list avd
 
