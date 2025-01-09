@@ -54,8 +54,8 @@ jobs:
       # Start the Android Emulator
       - name: Start Emulator
         run: |
-          nohup $ANDROID_HOME/emulator/emulator -avd test_avd -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -verbose &
-          adb wait-for-device
+          nohup $ANDROID_HOME/emulator/emulator -avd test_avd -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -verbose -port 5554 &
+          adb -s emulator-5554 wait-for-device
 
       # Check Emulator Status
       - name: Verify Emulator Boot
